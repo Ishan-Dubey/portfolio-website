@@ -1,0 +1,9 @@
+title: Ishan Dubey
+description: Solving real-world problems with code
+url: "https://ishan-dubey.github.io"
+baseurl: "/portfolio-website"
+
+remote_theme: yousinix/portfolYOU
+plugins:
+  - jekyll-remote-theme
+
