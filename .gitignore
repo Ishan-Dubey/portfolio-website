@@ -1,0 +1,17 @@
+# Ignore Bundler’s vendor directory
+/vendor/
+
+# Jekyll build output
+/_site/
+
+# Jekyll cache
+/.jekyll-cache/
+
+# Sass cache
+.sass-cache/
+
+# OS-generated files
+.DS_Store
+
+# If you ever add Node packages
+/node_modules/
