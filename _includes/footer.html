@@ -1,0 +1,142 @@
+<footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>{{ site.author.name }}</strong>
+  </small>
+
+  {% include social.html %}
+
+  {%- assign theme_name = "portfolYOU" -%}
+  {%- assign theme_repo = "https://github.com/yousinix/portfolYOU" -%}
+  <small id="attribution">
+    theme <a href="{{ theme_repo }}">{{ theme_name }}</a>
+  </small>
+
+  <!-- Dark mode toggle script -->
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+      // Initialize theme from localStorage or default to dark
+      const saved = localStorage.getItem('theme') || 'dark';
+      root.dataset.theme = saved;
+      // Set the button icon
+      toggle.textContent = saved === 'dark' ? '🌙' : '☀️';
+      // On click, flip theme & save
+      toggle.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        localStorage.setItem('theme', next);
+        toggle.textContent = next === 'dark' ? '🌙' : '☀️';
+      });
+    })();
+  </script>
+
+  <!-- Pagination Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const perPageSelect = document.getElementById('posts-per-page');
+      const prevBtns = [...document.querySelectorAll('.prev-page')];
+      const nextBtns = [...document.querySelectorAll('.next-page')];
+      const firstBtns = [...document.querySelectorAll('.first-page')];
+      const lastBtns = [...document.querySelectorAll('.last-page')];
+      const buttonsDivs = [...document.querySelectorAll('.pagination-buttons')];
+      const items = [...document.querySelectorAll('.post-list-item')];
+
+      let perPage = parseInt(perPageSelect.value, 10);
+      let currentPage = 0;
+      const maxBtns = 5;  // sliding window size
+
+      function totalPages() {
+        return Math.ceil(items.length / perPage);
+      }
+
+      function buildButtons() {
+        const total = totalPages();
+        const half = Math.floor(maxBtns / 2);
+        buttonsDivs.forEach(div => {
+          div.innerHTML = '';
+          let start = Math.max(0, currentPage - half);
+          let end = Math.min(total, start + maxBtns);
+          if (end - start < maxBtns) start = Math.max(0, end - maxBtns);
+
+          // front ellipsis
+          if (start > 0) {
+            const ell = document.createElement('span');
+            ell.textContent = '…';
+            ell.className = 'page-ellipsis';
+            div.append(ell);
+          }
+
+          for (let i = start; i < end; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i + 1;
+            btn.className = 'page-button';
+            btn.dataset.page = i;
+            if (i === currentPage) btn.classList.add('active');
+            btn.addEventListener('click', () => {
+              currentPage = i;
+              render();
+            });
+            div.append(btn);
+          }
+
+          // back ellipsis
+          if (end < total) {
+            const ell = document.createElement('span');
+            ell.textContent = '…';
+            ell.className = 'page-ellipsis';
+            div.append(ell);
+          }
+        });
+      }
+
+      function render() {
+        const total = totalPages();
+        const start = currentPage * perPage;
+        const end = start + perPage;
+        items.forEach((li, idx) => {
+          li.style.display = (idx >= start && idx < end) ? '' : 'none';
+        });
+
+        buildButtons();
+
+        // enable/disable nav
+        const atStart = currentPage === 0;
+        const atEnd = currentPage >= total - 1;
+        prevBtns.forEach(b => b.disabled = atStart);
+        firstBtns.forEach(b => b.disabled = atStart);
+        nextBtns.forEach(b => b.disabled = atEnd);
+        lastBtns.forEach(b => b.disabled = atEnd);
+      }
+
+      // event hookups
+      perPageSelect.addEventListener('change', () => {
+        perPage = parseInt(perPageSelect.value, 10);
+        currentPage = 0;
+        render();
+      });
+      prevBtns.forEach(b => b.addEventListener('click', () => {
+        if (currentPage > 0) currentPage--, render();
+      }));
+      nextBtns.forEach(b => b.addEventListener('click', () => {
+        if (currentPage < totalPages() - 1) currentPage++, render();
+      }));
+      firstBtns.forEach(b => b.addEventListener('click', () => {
+        currentPage = 0; render();
+      }));
+      lastBtns.forEach(b => b.addEventListener('click', () => {
+        currentPage = totalPages() - 1; render();
+      }));
+
+      // initial draw
+      render();
+    });
+  </script>
+
+
+
+  </body>
+
+</footer>

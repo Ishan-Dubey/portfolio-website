@@ -1,0 +1,19 @@
+{% assign img = post.image | default: '/assets/images/default-post.png' %}
+<div class="post-card fade-in mb-4">
+  <a href="{{ post.url | relative_url }}" class="card-link">
+    {% if img %}
+      <img
+        src="{{ img | relative_url }}"
+        alt="{{ post.title }}"
+        class="card-img-top"
+      >
+    {% endif %}
+    <div class="card-body">
+      <h2 class="card-title">
+        {{ post.title }}
+      </h2>
+      <p class="card-text">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+      <small class="text-muted">{{ post.date | date: "%b %-d, %Y" }}</small>
+    </div>
+  </a>
+</div>

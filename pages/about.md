@@ -5,4 +5,6 @@ permalink: /about/
 weight: 1
 ---
 
-Write a short bio here in Markdown…
+<h1 class="page-title">About</h1>
+
+I am Ishan.

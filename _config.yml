@@ -7,3 +7,8 @@ remote_theme: yousinix/portfolYOU
 plugins:
   - jekyll-remote-theme
 
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  parse_block_html: true
